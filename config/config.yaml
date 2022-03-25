@@ -1,0 +1,59 @@
+project:
+  version: 1.0
+  active_config: config1
+  root_path: &path_root './GCNet'
+
+
+data_path:
+  setting:
+    use_index: 0
+  path_list:
+    image_folder:
+       - './aca_img/img/'
+    mask_folder:
+       - './aca_img/seg_mask/obj'
+    model_path:
+       - './pretrained_model/resnet50-pre.pth'
+
+train:
+  model:
+    continue_my_model: False
+    embedding_dim: 2
+    pre_trained: True
+
+---
+project:
+  config_name: config1
+
+superparameter:
+  save_name: 'today'
+  static:
+    num_instance: 5
+    num_classes: 5
+    seed: 42
+    k_fold: 5
+    batch_size: 4
+  train:
+    max_epoch: 4
+    learning_rate: 1e-3
+    img_height: 128
+    img_width: 256
+  pseudo:
+    start_pseudo_epoch: 150
+    tau_n: 0.3
+    kappa_n: 0.005
+    tau_p: 0.7
+    kappa_p: 0.05
+  networks:
+    delta_v: 0.0001
+    delta_d: 1.0
+    final_dim: 8
+  loss:
+    loss_p:
+      p_cla: 1.0
+      p_seg: 1.0
+      p_disc: 1.0
+    disc_loss_p:
+      p_var: 1.0
+      p_dist: 1.0
+      p_reg: 0.01
